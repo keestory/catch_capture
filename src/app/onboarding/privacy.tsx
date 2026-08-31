@@ -5,6 +5,7 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import { ActionButton } from "@/components/action-button";
 import { OnboardingFrame } from "@/components/onboarding-frame";
 import { StatePanel } from "@/components/state-panel";
+import { WebPhotoSelectionGuide } from "@/components/web-photo-selection-guide";
 import { ko } from "@/localization/ko";
 import { useOnboarding } from "@/onboarding/onboarding-provider";
 import { tokens } from "@/theme/tokens";
@@ -90,8 +91,9 @@ export default function OnboardingPrivacyScreen() {
         web ? (
           <>
             <ActionButton
+              busy={busy}
               disabled={busy}
-              label={ko.onboarding.webSelect}
+              label={busy ? ko.onboarding.webSelectBusy : ko.onboarding.webSelect}
               onPress={() => void chooseManually()}
             />
             <ActionButton
@@ -165,14 +167,12 @@ export default function OnboardingPrivacyScreen() {
       title={ko.onboarding.privacyTitle}
     >
       {web ? (
-        <View style={styles.webPanel}>
-          <Text style={styles.webKicker}>{ko.onboarding.webKicker}</Text>
-          <Text style={styles.webTitle}>{ko.onboarding.webTitle}</Text>
-          <Text style={styles.webBody}>{ko.onboarding.webBody}</Text>
-          <Text style={styles.webWarning}>{ko.onboarding.webAnalysisNote}</Text>
-          <View style={styles.webRule} />
-          <Text style={styles.webFootnote}>{ko.onboarding.webFootnote}</Text>
-        </View>
+        <WebPhotoSelectionGuide
+          body={ko.onboarding.webBody}
+          footnote={`${ko.onboarding.webAnalysisNote} ${ko.onboarding.webFootnote}`}
+          showSteps
+          title={ko.onboarding.webTitle}
+        />
       ) : denied ? (
         <StatePanel
           description={ko.onboarding.deniedBody}
@@ -198,44 +198,6 @@ export default function OnboardingPrivacyScreen() {
 }
 
 const styles = StyleSheet.create({
-  webPanel: {
-    gap: tokens.space[3],
-    padding: tokens.space[5],
-    borderWidth: 1,
-    borderColor: tokens.color.lineStrong,
-    borderRadius: tokens.radius.card,
-    backgroundColor: tokens.color.surface,
-  },
-  webKicker: {
-    color: tokens.color.primary,
-    fontSize: tokens.typography.eyebrow.fontSize,
-    lineHeight: tokens.typography.eyebrow.lineHeight,
-    fontWeight: "800",
-    letterSpacing: tokens.typography.eyebrow.letterSpacing,
-  },
-  webTitle: {
-    color: tokens.color.ink,
-    fontSize: 18,
-    lineHeight: 25,
-    fontWeight: "800",
-  },
-  webBody: {
-    color: tokens.color.inkSecondary,
-    fontSize: tokens.typography.body.fontSize,
-    lineHeight: tokens.typography.body.lineHeight,
-  },
-  webRule: { height: 1, backgroundColor: tokens.color.line },
-  webWarning: {
-    color: tokens.color.ink,
-    fontSize: tokens.typography.metadata.fontSize,
-    lineHeight: tokens.typography.metadata.lineHeight,
-    fontWeight: "600",
-  },
-  webFootnote: {
-    color: tokens.color.inkTertiary,
-    fontSize: tokens.typography.metadata.fontSize,
-    lineHeight: tokens.typography.metadata.lineHeight,
-  },
   list: { gap: tokens.space[3] },
   item: {
     minHeight: 76,

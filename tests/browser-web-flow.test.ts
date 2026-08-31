@@ -9,11 +9,13 @@ import {
 import { MemoryStorageDriver } from "@/data/storage-driver";
 import { resolveItemReviewDate, resolveReviewDate } from "@/domain/review-date";
 import {
+  BROWSER_IMAGE_ACCEPT,
   BROWSER_SELECTION_LIMIT,
   BrowserScreenshotSource,
   isSupportedBrowserImage,
   limitBrowserSelection,
 } from "@/services/browser-screenshot-source";
+import { ko } from "@/localization/ko";
 import type {
   DeviceScreenshotAsset,
   DeviceScreenshotSource,
@@ -52,6 +54,21 @@ describe("web-first screenshot entry", () => {
     expect(limitBrowserSelection(files)).toEqual(
       Array.from({ length: BROWSER_SELECTION_LIMIT }, (_, index) => index),
     );
+  });
+
+  it("asks for supported screenshot image types through the system picker", () => {
+    expect(BROWSER_IMAGE_ACCEPT).toContain(".png");
+    expect(BROWSER_IMAGE_ACCEPT).toContain(".jpg");
+    expect(BROWSER_IMAGE_ACCEPT).toContain(".webp");
+    expect(BROWSER_IMAGE_ACCEPT).not.toContain("image/*");
+  });
+
+  it("explains the mobile web boundary without pretending to grant photo access", () => {
+    expect(ko.onboarding.webTitle).toContain("사진 접근 권한 대신");
+    expect(ko.onboarding.webBoundaryTitle).toContain("사진 전체 접근 권한을 받지 않아요");
+    expect(ko.onboarding.webSelect).toBe("사진 앱에서 스크린샷 고르기");
+    expect(ko.today.webImportBody).toContain("고른 스크린샷만");
+    expect(ko.today.webImportFootnote).toContain("최대 6장");
   });
 
   it("does not pretend the browser has photo-library permission", async () => {

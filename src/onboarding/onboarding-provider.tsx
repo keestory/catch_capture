@@ -42,7 +42,8 @@ export function OnboardingProvider({
   adapter = new NativePhotoAccessAdapter(),
 }: PropsWithChildren<{ adapter?: PhotoAccessAdapter }>) {
   const [store] = useState(() => new OnboardingStore(new AsyncStorageDriver()));
-  const [flow] = useState(() => new OnboardingFlow(store, adapter));
+  const [photoAccessAdapter] = useState(() => adapter);
+  const [flow] = useState(() => new OnboardingFlow(store, photoAccessAdapter));
   const [state, setState] = useState(defaultOnboardingState);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -97,15 +98,21 @@ export function OnboardingProvider({
   const selectManually = useCallback(async () => {
     setError(null);
     try {
-      const result = await flow.selectManually();
-      setState(result.state);
-      return result.count;
+      if (!state.valueSeen) throw new Error("가치 안내를 먼저 확인해 주세요.");
+
+      // Mobile Safari requires the picker to open during the original user gesture.
+      // Do not put an async storage read before this call.
+      const count = await photoAccessAdapter.selectScreenshots();
+      if (count === 0) return 0;
+      const next = await flow.recordManualSelection(count);
+      setState(next);
+      return count;
     } catch (reason) {
       const message = reason instanceof Error ? reason.message : "선택한 항목을 가져오지 못했어요.";
       setError(message);
       throw reason;
     }
-  }, [flow]);
+  }, [flow, photoAccessAdapter, state.valueSeen]);
 
   const continueWithDemo = useCallback(() => run(() => flow.continueWithDemo()), [flow, run]);
   const recordManualSelection = useCallback(

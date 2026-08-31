@@ -2,6 +2,7 @@ import type { DeviceScreenshotAsset, DeviceScreenshotSource } from "./expo-scree
 
 export const BROWSER_SELECTION_LIMIT = 6;
 export const BROWSER_STORAGE_BUDGET = 2_400_000;
+export const BROWSER_IMAGE_ACCEPT = ".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp";
 
 const SUPPORTED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 
@@ -62,23 +63,46 @@ const prepareAsset = async (file: File): Promise<DeviceScreenshotAsset> => {
 };
 
 const openBrowserPicker = (): Promise<File[]> =>
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
     const input = document.createElement("input");
     let settled = false;
+    let focusTimer: number | undefined;
+    const cleanup = () => {
+      if (focusTimer !== undefined) window.clearTimeout(focusTimer);
+      window.removeEventListener("focus", handleWindowFocus);
+      input.remove();
+    };
     const finish = () => {
       if (settled) return;
       settled = true;
-      window.removeEventListener("focus", handleWindowFocus);
+      cleanup();
       resolve(Array.from(input.files ?? []));
     };
-    const handleWindowFocus = () => window.setTimeout(finish, 250);
+    const handleWindowFocus = () => {
+      if (focusTimer !== undefined) window.clearTimeout(focusTimer);
+      focusTimer = window.setTimeout(finish, 800);
+    };
     input.type = "file";
-    input.accept = "image/png,image/jpeg,image/webp";
+    input.accept = BROWSER_IMAGE_ACCEPT;
     input.multiple = true;
     input.onchange = finish;
     input.addEventListener("cancel", finish);
+    input.setAttribute("aria-label", "사진 앱에서 스크린샷 고르기");
+    input.style.position = "fixed";
+    input.style.width = "1px";
+    input.style.height = "1px";
+    input.style.opacity = "0";
+    input.style.pointerEvents = "none";
+    input.style.inset = "0 auto auto 0";
+    document.body.appendChild(input);
     window.addEventListener("focus", handleWindowFocus);
-    input.click();
+    try {
+      input.click();
+    } catch (reason) {
+      settled = true;
+      cleanup();
+      reject(reason);
+    }
   });
 
 export class BrowserScreenshotSource implements DeviceScreenshotSource {

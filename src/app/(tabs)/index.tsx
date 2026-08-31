@@ -3,17 +3,19 @@ import { Platform, Pressable, StyleSheet, Text, useWindowDimensions, View } from
 import { useIsFocused, useRouter } from "expo-router";
 
 import { AppScreen } from "@/components/app-screen";
+import { ActionButton } from "@/components/action-button";
 import { ActionBundleHero } from "@/components/action-bundle-hero";
 import { CuriosityDashboard } from "@/components/curiosity-dashboard";
 import { ScreenHeader } from "@/components/screen-header";
 import { StatePanel } from "@/components/state-panel";
 import { TodayConnectionCard } from "@/components/today-connection-card";
+import { WebPhotoSelectionGuide } from "@/components/web-photo-selection-guide";
 import { useAppData } from "@/data/app-data-provider";
 import { presentCuriosityDashboard } from "@/domain/curiosity-dashboard-presentation";
 import { resolveItemReviewDate, resolveReviewDate } from "@/domain/review-date";
 import { TODAY_CONNECTION_LIMIT } from "@/domain/today-connection-presentation";
 import { buildThirdSignalSuggestions } from "@/domain/third-signal-policy";
-import { ko } from "@/localization/ko";
+import { interpolate, ko } from "@/localization/ko";
 import { useOnboarding } from "@/onboarding/onboarding-provider";
 import { tokens } from "@/theme/tokens";
 
@@ -43,6 +45,7 @@ export default function TodayScreen() {
   } = useAppData();
   const [starting, setStarting] = useState(false);
   const [selectingBrowser, setSelectingBrowser] = useState(false);
+  const [browserSelectionNotice, setBrowserSelectionNotice] = useState<string | null>(null);
   const reviewDate = resolveReviewDate(items, onboarding.importMode);
 
   const reviewItems = useMemo(
@@ -103,9 +106,13 @@ export default function TodayScreen() {
 
   const selectMoreInBrowser = async () => {
     if (selectingBrowser) return;
+    setBrowserSelectionNotice(null);
     setSelectingBrowser(true);
     try {
-      await selectBrowserScreenshots();
+      const count = await selectBrowserScreenshots();
+      setBrowserSelectionNotice(
+        count > 0 ? interpolate(ko.today.webImportSuccess, { count }) : ko.today.webImportCancelled,
+      );
     } catch {
       // The provider exposes the localized error state below.
     } finally {
@@ -127,6 +134,7 @@ export default function TodayScreen() {
   }
 
   if (
+    Platform.OS !== "web" &&
     photoImportStatus === "permission_denied" &&
     onboarding.importMode !== "demo" &&
     items.length === 0
@@ -165,6 +173,33 @@ export default function TodayScreen() {
 
   return (
     <AppScreen accessibilityHidden={!isFocused} atmosphere={false} testID="today-screen">
+      {Platform.OS === "web" ? (
+        <WebPhotoSelectionGuide
+          body={
+            onboarding.importMode === "demo" ? ko.today.webImportDemoBody : ko.today.webImportBody
+          }
+          footnote={ko.today.webImportFootnote}
+          status={browserSelectionNotice}
+          title={
+            onboarding.importMode === "demo" ? ko.today.webImportDemoTitle : ko.today.webImportTitle
+          }
+        >
+          <ActionButton
+            accessibilityHint="휴대폰이나 컴퓨터의 사진 선택 화면을 엽니다"
+            busy={selectingBrowser}
+            disabled={selectingBrowser}
+            label={
+              selectingBrowser
+                ? ko.today.webImportBusy
+                : onboarding.importMode === "demo"
+                  ? ko.today.webImportDemoAction
+                  : ko.today.webImportAction
+            }
+            onPress={() => void selectMoreInBrowser()}
+          />
+        </WebPhotoSelectionGuide>
+      ) : null}
+
       <CuriosityDashboard
         items={items}
         onOpenReview={() => void openReview()}
@@ -172,41 +207,6 @@ export default function TodayScreen() {
         reviewDisabled={reviewDisabled}
         starting={starting}
       />
-
-      {Platform.OS === "web" ? (
-        <View style={styles.webImportBar}>
-          <View style={styles.webImportCopy}>
-            <Text style={styles.webImportTitle}>
-              {onboarding.importMode === "demo"
-                ? ko.today.webImportDemoTitle
-                : ko.today.webImportTitle}
-            </Text>
-            <Text style={styles.webImportBody}>
-              {onboarding.importMode === "demo"
-                ? ko.today.webImportDemoBody
-                : ko.today.webImportBody}
-            </Text>
-          </View>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityState={{ busy: selectingBrowser }}
-            disabled={selectingBrowser}
-            onPress={() => void selectMoreInBrowser()}
-            style={({ pressed }) => [
-              styles.webImportButton,
-              pressed && styles.webImportButtonPressed,
-            ]}
-          >
-            <Text style={styles.webImportButtonText}>
-              {selectingBrowser
-                ? ko.today.webImportBusy
-                : onboarding.importMode === "demo"
-                  ? ko.today.webImportDemoAction
-                  : ko.today.webImportAction}
-            </Text>
-          </Pressable>
-        </View>
-      ) : null}
 
       {failedItems.length > 0 ? (
         <View accessibilityRole="alert" style={styles.analysisNotice}>
@@ -249,15 +249,35 @@ export default function TodayScreen() {
         />
       ) : groups.length === 0 && !actionSuggestion ? (
         <StatePanel
-          actionLabel={onboarding.importMode === "demo" ? undefined : "새 스크린샷 확인"}
+          actionLabel={
+            Platform.OS === "web"
+              ? ko.today.webImportAction
+              : onboarding.importMode === "demo"
+                ? undefined
+                : "새 스크린샷 확인"
+          }
           description={
             photoImportStatus === "syncing"
               ? "사진 앱에서 새 스크린샷을 확인하고 있어요."
-              : ko.today.emptyBody
+              : Platform.OS === "web"
+                ? "웹에서는 새 스크린샷을 자동으로 찾지 못해요. 사진 앱에서 직접 골라 추가해 주세요."
+                : ko.today.emptyBody
           }
           kind={photoImportStatus === "syncing" ? "loading" : "empty"}
-          onAction={onboarding.importMode === "demo" ? undefined : () => void syncScreenshots()}
-          title={photoImportStatus === "syncing" ? "오늘의 장면을 모으는 중" : ko.today.emptyTitle}
+          onAction={
+            Platform.OS === "web"
+              ? () => void selectMoreInBrowser()
+              : onboarding.importMode === "demo"
+                ? undefined
+                : () => void syncScreenshots()
+          }
+          title={
+            photoImportStatus === "syncing"
+              ? "오늘의 장면을 모으는 중"
+              : Platform.OS === "web"
+                ? "아직 선택한 스크린샷이 없어요"
+                : ko.today.emptyTitle
+          }
         />
       ) : (
         <View style={styles.feed}>
@@ -323,34 +343,6 @@ export default function TodayScreen() {
 }
 
 const styles = StyleSheet.create({
-  webImportBar: {
-    minHeight: 72,
-    padding: tokens.space[4],
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    gap: tokens.space[4],
-    borderWidth: 1,
-    borderColor: tokens.color.line,
-    borderRadius: tokens.radius.card,
-    backgroundColor: tokens.color.surface,
-  },
-  webImportCopy: { flex: 1, gap: tokens.space[1] },
-  webImportTitle: { color: tokens.color.ink, fontSize: 14, fontWeight: "800" },
-  webImportBody: { color: tokens.color.inkSecondary, fontSize: 12, lineHeight: 17 },
-  webImportButton: {
-    minHeight: tokens.size.touchTarget,
-    paddingHorizontal: tokens.space[4],
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: tokens.color.lineStrong,
-    borderRadius: tokens.radius.screenshotCard,
-    backgroundColor: tokens.color.surfaceMuted,
-  },
-  webImportButtonPressed: { opacity: 0.72 },
-  webImportButtonText: { color: tokens.color.ink, fontSize: 12, fontWeight: "800" },
   analysisNotice: {
     minHeight: 58,
     paddingHorizontal: tokens.space[4],

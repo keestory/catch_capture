@@ -60,15 +60,15 @@ Table selection, Select/Listbox, Date, and product Form are not part of this web
 
 ## Flow ledger
 
-| Operation            | Trigger                                  | Pending                                | Success destination    | Success feedback                   | Failure recovery         | Focus outcome                | Source ref                            |
-| -------------------- | ---------------------------------------- | -------------------------------------- | ---------------------- | ---------------------------------- | ------------------------ | ---------------------------- | ------------------------------------- |
-| Browser import       | `스크린샷 직접 고르기` / `스크린샷 추가` | stable busy label                      | first result or Today  | imported count in Today            | inline error + retry     | result heading               | `docs/02_MVP_SCOPE.md`                |
-| Demo → manual        | `내 스크린샷 선택`                       | demo remains until a selection is made | Today                  | selected local batch replaces demo | cancel preserves demo    | Today import region          | `docs/08_PRIVACY.md`                  |
-| Review approve       | `모두 {의도}으로 보관`                   | button disabled/busy                   | next group or complete | progress + complete screen         | current group retained   | next group heading           | `docs/05_SCREEN_SPECS.md`             |
-| Search               | search keyboard action or suggestion     | stable loading panel                   | same route             | result count                       | retry panel              | search/results context       | `docs/03_INFORMATION_ARCHITECTURE.md` |
-| Soft-delete          | `Echo에서만 제거`                        | confirmation/action pending            | valid parent context   | shared Undo                        | item retained on failure | next valid context           | `docs/08_PRIVACY.md`                  |
-| Native device delete | `기기 사진에서도 삭제`                   | pessimistic OS transaction             | detail/valid parent    | exact result state                 | original item retained   | confirmation trigger/context | `docs/08_PRIVACY.md`                  |
-| Cancel/back          | Back/close                               | none                                   | originating route      | none                               | n/a                      | originating context          | `docs/03_INFORMATION_ARCHITECTURE.md` |
+| Operation            | Trigger                              | Pending                                | Success destination    | Success feedback                   | Failure recovery         | Focus outcome                | Source ref                            |
+| -------------------- | ------------------------------------ | -------------------------------------- | ---------------------- | ---------------------------------- | ------------------------ | ---------------------------- | ------------------------------------- |
+| Browser import       | `사진 앱에서 스크린샷 고르기`        | stable busy label                      | first result or Today  | selection result in Today          | inline error + retry     | result heading               | `docs/02_MVP_SCOPE.md`                |
+| Demo → manual        | `내 스크린샷 선택`                   | demo remains until a selection is made | Today                  | selected local batch replaces demo | cancel preserves demo    | Today import region          | `docs/08_PRIVACY.md`                  |
+| Review approve       | `모두 {의도}으로 보관`               | button disabled/busy                   | next group or complete | progress + complete screen         | current group retained   | next group heading           | `docs/05_SCREEN_SPECS.md`             |
+| Search               | search keyboard action or suggestion | stable loading panel                   | same route             | result count                       | retry panel              | search/results context       | `docs/03_INFORMATION_ARCHITECTURE.md` |
+| Soft-delete          | `Echo에서만 제거`                    | confirmation/action pending            | valid parent context   | shared Undo                        | item retained on failure | next valid context           | `docs/08_PRIVACY.md`                  |
+| Native device delete | `기기 사진에서도 삭제`               | pessimistic OS transaction             | detail/valid parent    | exact result state                 | original item retained   | confirmation trigger/context | `docs/08_PRIVACY.md`                  |
+| Cancel/back          | Back/close                           | none                                   | originating route      | none                               | n/a                      | originating context          | `docs/03_INFORMATION_ARCHITECTURE.md` |
 
 ## Navigation and responsive behavior
 
@@ -103,7 +103,8 @@ Table selection, Select/Listbox, Date, and product Form are not part of this web
 
 ## Permission and clipboard
 
-- Browser: no fake photo-library permission; direct picker or demo only.
+- Browser: no fake photo-library permission or settings recovery; the onboarding and first Today viewport explain that a user gesture opens the system picker and only selected images are available.
+- Browser empty-state actions open the picker directly; they never call passive sync as though the browser could discover new photos.
 - Native: denied/limited/full states and settings recovery follow platform adapters.
 - Clipboard: no web clipboard feature in this slice.
 
