@@ -8,11 +8,23 @@ const execFileAsync = promisify(execFile);
 
 const projectRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const evaluationDir = join(projectRoot, "assets", "samples", "screenshots", "user-evaluation");
-const entries = await readdir(evaluationDir, { withFileTypes: true });
+let entries = [];
+try {
+  entries = await readdir(evaluationDir, { withFileTypes: true });
+} catch (error) {
+  if (!(error instanceof Error) || !Object.hasOwn(error, "code") || error.code !== "ENOENT") {
+    throw error;
+  }
+}
 const imageNames = entries
   .filter((entry) => entry.isFile() && /\.(?:jpe?g|png)$/i.test(entry.name))
   .map((entry) => entry.name)
   .sort();
+
+if (process.env.ECHO_RELEASE_BUILD === "1" && imageNames.length === 0) {
+  console.log("Release asset check passed (no local evaluation images included).");
+  process.exit(0);
+}
 
 if (process.env.ECHO_RELEASE_BUILD === "1" && imageNames.length > 0) {
   const sourceRoot = join(projectRoot, "src");
