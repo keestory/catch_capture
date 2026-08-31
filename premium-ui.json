@@ -1,0 +1,18 @@
+{
+  "profile": "product-admin",
+  "sourceRoots": ["src", "scripts"],
+  "locale": "ko-KR",
+  "canonicalMap": "UX-CONTRACT.md",
+  "requiredCapabilities": ["Scrollbar", "Toast", "CRUD"],
+  "requiredCommands": ["format", "lint", "typecheck", "unit"],
+  "commands": {
+    "format": "npm run format:check",
+    "lint": "npm run lint",
+    "typecheck": "npm run typecheck",
+    "unit": "npm test"
+  },
+  "evidence": {
+    "crudFullFlow": "tests/repositories.test.ts",
+    "failurePaths": "tests/browser-web-flow.test.ts"
+  }
+}

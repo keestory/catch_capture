@@ -1,0 +1,76 @@
+name: CatchCapture
+options:
+  bundleIdPrefix: com.catchcapture
+  deploymentTarget:
+    iOS: "17.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  CatchCapture:
+    type: application
+    platform: iOS
+    sources:
+      - CatchCapture
+    preBuildScripts:
+      - name: Block local evaluation assets in Release
+        basedOnDependencyAnalysis: false
+        script: |
+          if [ "$CONFIGURATION" != "Debug" ]; then
+            /bin/sh "$SRCROOT/scripts/check-release-assets.sh"
+          fi
+    info:
+      path: CatchCapture/Info.plist
+      properties:
+        CFBundleDisplayName: Catch
+        NSPhotoLibraryUsageDescription: "스크린샷만 찾아 기기 안에서 분류하고 오늘의 정리함을 만들어요."
+        BGTaskSchedulerPermittedIdentifiers:
+          - com.catchcapture.app.refresh
+          - com.catchcapture.app.processing
+        UIBackgroundModes:
+          - fetch
+          - processing
+        UILaunchScreen: {}
+        UIRequiresFullScreen: true
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+    entitlements:
+      path: CatchCapture/CatchCapture.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.catchcapture.app
+        PRODUCT_NAME: Catch
+        PRODUCT_MODULE_NAME: CatchCapture
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+    scheme:
+      testTargets:
+        - CatchCaptureTests
+        - CatchCaptureUITests
+  CatchCaptureTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - CatchCaptureTests
+    dependencies:
+      - target: CatchCapture
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.catchcapture.tests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Catch.app/Catch"
+        BUNDLE_LOADER: "$(TEST_HOST)"
+  CatchCaptureUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - CatchCaptureUITests
+    dependencies:
+      - target: CatchCapture
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.catchcapture.uitests
+        GENERATE_INFOPLIST_FILE: YES

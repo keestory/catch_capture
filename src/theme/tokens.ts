@@ -1,0 +1,176 @@
+import rawTokens from "../../design/design-tokens.json";
+
+const value = <T>(token: { value: T }) => token.value;
+
+export const tokens = {
+  color: {
+    canvas: value(rawTokens.color.canvas),
+    canvasDeep: value(rawTokens.color.canvasDeep),
+    surface: value(rawTokens.color.surface),
+    surfaceRaised: value(rawTokens.color.surfaceRaised),
+    surfaceMuted: value(rawTokens.color.surfaceMuted),
+    ink: value(rawTokens.color.ink),
+    inkSecondary: value(rawTokens.color.inkSecondary),
+    inkTertiary: value(rawTokens.color.inkTertiary),
+    line: value(rawTokens.color.line),
+    lineStrong: value(rawTokens.color.lineStrong),
+    primary: value(rawTokens.color.primary),
+    primaryPressed: value(rawTokens.color.primaryPressed),
+    primarySoft: value(rawTokens.color.primarySoft),
+    signal: value(rawTokens.color.signal),
+    signalSoft: value(rawTokens.color.signalSoft),
+    signalInk: value(rawTokens.color.signalInk),
+    aiHighlight: value(rawTokens.color.aiHighlight),
+    danger: value(rawTokens.color.danger),
+    dangerSoft: value(rawTokens.color.dangerSoft),
+    success: value(rawTokens.color.success),
+    successSoft: value(rawTokens.color.successSoft),
+    brandAsset: {
+      orbitNight: value(rawTokens.color.brandAsset.orbitNight),
+      pearlLilac: value(rawTokens.color.brandAsset.pearlLilac),
+      orbViolet: value(rawTokens.color.brandAsset.orbViolet),
+      orbAqua: value(rawTokens.color.brandAsset.orbAqua),
+      orbSky: value(rawTokens.color.brandAsset.orbSky),
+      orbPeach: value(rawTokens.color.brandAsset.orbPeach),
+    },
+    echoSurface: {
+      ambientAqua: value(rawTokens.color.echoSurface.ambientAqua),
+      ambientLilac: value(rawTokens.color.echoSurface.ambientLilac),
+      ambientPeach: value(rawTokens.color.echoSurface.ambientPeach),
+      recallSurface: value(rawTokens.color.echoSurface.recallSurface),
+      recallBorder: value(rawTokens.color.echoSurface.recallBorder),
+      reflectionAqua: value(rawTokens.color.echoSurface.reflectionAqua),
+      reflectionViolet: value(rawTokens.color.echoSurface.reflectionViolet),
+      reflectionPeach: value(rawTokens.color.echoSurface.reflectionPeach),
+      navigationSurface: value(rawTokens.color.echoSurface.navigationSurface),
+      navigationSelected: value(rawTokens.color.echoSurface.navigationSelected),
+    },
+    intent: {
+      reference: {
+        background: value(rawTokens.color.intent.reference.background),
+        text: value(rawTokens.color.intent.reference.text),
+      },
+      want: {
+        background: value(rawTokens.color.intent.want.background),
+        text: value(rawTokens.color.intent.want.text),
+      },
+      share: {
+        background: value(rawTokens.color.intent.share.background),
+        text: value(rawTokens.color.intent.share.text),
+      },
+      read: {
+        background: value(rawTokens.color.intent.read.background),
+        text: value(rawTokens.color.intent.read.text),
+      },
+      keep: {
+        background: value(rawTokens.color.intent.keep.background),
+        text: value(rawTokens.color.intent.keep.text),
+      },
+    },
+  },
+  space: {
+    0: value(rawTokens.space["0"]),
+    1: value(rawTokens.space["1"]),
+    2: value(rawTokens.space["2"]),
+    3: value(rawTokens.space["3"]),
+    4: value(rawTokens.space["4"]),
+    5: value(rawTokens.space["5"]),
+    6: value(rawTokens.space["6"]),
+    7: value(rawTokens.space["7"]),
+    8: value(rawTokens.space["8"]),
+    10: value(rawTokens.space["10"]),
+    12: value(rawTokens.space["12"]),
+  },
+  radius: {
+    thumbnail: value(rawTokens.radius.thumbnail),
+    screenshotCard: value(rawTokens.radius.screenshotCard),
+    card: value(rawTokens.radius.card),
+    feature: value(rawTokens.radius.feature),
+    tray: value(rawTokens.radius.tray),
+    sheet: value(rawTokens.radius.sheet),
+    modal: value(rawTokens.radius.modal),
+    pill: value(rawTokens.radius.pill),
+  },
+  size: {
+    touchTarget: value(rawTokens.size.touchTarget),
+    iconSmall: value(rawTokens.size.iconSmall),
+    iconMedium: value(rawTokens.size.iconMedium),
+    iconLarge: value(rawTokens.size.iconLarge),
+  },
+  typography: {
+    display: {
+      fontSize: value(rawTokens.typography.display.fontSize),
+      lineHeight: value(rawTokens.typography.display.lineHeight),
+      fontWeight: value(rawTokens.typography.display.fontWeight),
+      letterSpacing: value(rawTokens.typography.display.letterSpacing),
+    },
+    coverNumber: {
+      fontSize: value(rawTokens.typography.coverNumber.fontSize),
+      lineHeight: value(rawTokens.typography.coverNumber.lineHeight),
+      fontWeight: value(rawTokens.typography.coverNumber.fontWeight),
+    },
+    screenTitle: {
+      fontSize: value(rawTokens.typography.screenTitle.fontSize),
+      lineHeight: value(rawTokens.typography.screenTitle.lineHeight),
+      fontWeight: value(rawTokens.typography.screenTitle.fontWeight),
+    },
+    sectionTitle: {
+      fontSize: value(rawTokens.typography.sectionTitle.fontSize),
+      lineHeight: value(rawTokens.typography.sectionTitle.lineHeight),
+      fontWeight: value(rawTokens.typography.sectionTitle.fontWeight),
+    },
+    cardTitle: {
+      fontSize: value(rawTokens.typography.cardTitle.fontSize),
+      lineHeight: value(rawTokens.typography.cardTitle.lineHeight),
+      fontWeight: value(rawTokens.typography.cardTitle.fontWeight),
+    },
+    body: {
+      fontSize: value(rawTokens.typography.body.fontSize),
+      lineHeight: value(rawTokens.typography.body.lineHeight),
+      fontWeight: value(rawTokens.typography.body.fontWeight),
+    },
+    bodyStrong: {
+      fontSize: value(rawTokens.typography.bodyStrong.fontSize),
+      lineHeight: value(rawTokens.typography.bodyStrong.lineHeight),
+      fontWeight: value(rawTokens.typography.bodyStrong.fontWeight),
+    },
+    metadata: {
+      fontSize: value(rawTokens.typography.metadata.fontSize),
+      lineHeight: value(rawTokens.typography.metadata.lineHeight),
+      fontWeight: value(rawTokens.typography.metadata.fontWeight),
+    },
+    label: {
+      fontSize: value(rawTokens.typography.label.fontSize),
+      lineHeight: value(rawTokens.typography.label.lineHeight),
+      fontWeight: value(rawTokens.typography.label.fontWeight),
+    },
+    eyebrow: {
+      fontSize: value(rawTokens.typography.eyebrow.fontSize),
+      lineHeight: value(rawTokens.typography.eyebrow.lineHeight),
+      fontWeight: value(rawTokens.typography.eyebrow.fontWeight),
+      letterSpacing: value(rawTokens.typography.eyebrow.letterSpacing),
+    },
+    micro: {
+      fontSize: value(rawTokens.typography.micro.fontSize),
+      lineHeight: value(rawTokens.typography.micro.lineHeight),
+      fontWeight: value(rawTokens.typography.micro.fontWeight),
+    },
+  },
+  motion: {
+    fast: value(rawTokens.motion.fast),
+    default: value(rawTokens.motion.default),
+    slow: value(rawTokens.motion.slow),
+  },
+  layout: {
+    screenPadding: value(rawTokens.layout.screenPadding),
+    sectionGap: value(rawTokens.layout.sectionGap),
+    cardGap: value(rawTokens.layout.cardGap),
+    gridColumns: value(rawTokens.layout.gridColumns),
+    maxContentWidth: value(rawTokens.layout.maxContentWidth),
+    maxWorkspaceWidth: value(rawTokens.layout.maxWorkspaceWidth),
+    hairline: value(rawTokens.layout.hairline),
+    signalLine: value(rawTokens.layout.signalLine),
+  },
+} as const;
+
+export type AppTokens = typeof tokens;

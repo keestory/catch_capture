@@ -1,0 +1,48 @@
+{
+  "name": "catch-screenshot-curator",
+  "version": "0.1.0",
+  "private": true,
+  "main": "expo-router/entry",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "export": "npm run release:check && expo export",
+    "check:evaluation-assets": "node scripts/check-evaluation-assets.mjs",
+    "release:check": "ECHO_RELEASE_BUILD=1 node scripts/check-evaluation-assets.mjs",
+    "eas-build-pre-install": "npm run release:check",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "npm run check:evaluation-assets && npm run format:check && npm run lint && npm run typecheck && npm test"
+  },
+  "dependencies": {
+    "@expo/metro-runtime": "~57.0.12",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "expo": "~57.0.15",
+    "expo-constants": "~57.0.13",
+    "expo-image": "~57.0.3",
+    "expo-media-library": "~57.0.4",
+    "expo-router": "~57.0.15",
+    "expo-status-bar": "~57.0.1",
+    "phosphor-react-native": "^3.0.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.2",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "react-native-svg": "15.15.4",
+    "react-native-web": "~0.21.0"
+  },
+  "devDependencies": {
+    "@types/react": "~19.2.2",
+    "eslint": "^9.39.5",
+    "eslint-config-expo": "latest",
+    "prettier": "latest",
+    "typescript": "~6.0.3",
+    "vitest": "latest"
+  }
+}

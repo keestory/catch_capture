@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "CATCH",
+    "slug": "catch-screenshot-curator",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "catchcapture",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.catchcapture.curator"
+    },
+    "android": {
+      "package": "com.catchcapture.curator",
+      "adaptiveIcon": {
+        "backgroundColor": "#F4F1EA",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "새 스크린샷을 찾아 정리하고, 직접 선택한 원본만 사진 앱에서 삭제할 수 있도록 허용해 주세요.",
+          "savePhotosPermission": "선택한 큐레이션을 사진 앱에 저장할 수 있도록 허용해 주세요.",
+          "granularPermissions": ["photo"],
+          "preventAutomaticLimitedAccessAlert": true
+        }
+      ],
+      "expo-image"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

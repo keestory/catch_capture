@@ -1,0 +1,20 @@
+.build/
+DerivedData/
+*.xcresult
+.DS_Store
+xcuserdata/
+node_modules/
+.expo/
+.vercel/
+dist/
+coverage/
+expo-env.d.ts
+npm-debug.log*
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+
+# Local-only evaluation captures are not release-cleared.
+assets/samples/screenshots/user-evaluation/

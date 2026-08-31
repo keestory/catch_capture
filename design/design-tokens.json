@@ -1,0 +1,118 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "color": {
+    "canvas": { "value": "#F7F7F5" },
+    "canvasDeep": { "value": "#EFEFEB" },
+    "surface": { "value": "#FFFFFF" },
+    "surfaceRaised": { "value": "#FFFFFF" },
+    "surfaceMuted": { "value": "#F2F2EF" },
+    "ink": { "value": "#151510" },
+    "inkSecondary": { "value": "#5E594F" },
+    "inkTertiary": { "value": "#70695F" },
+    "line": { "value": "#E2E1DC" },
+    "lineStrong": { "value": "#C9C7BF" },
+    "primary": { "value": "#2447E8" },
+    "primaryPressed": { "value": "#1834B4" },
+    "primarySoft": { "value": "#E9EDFF" },
+    "signal": { "value": "#CDEB59" },
+    "signalSoft": { "value": "#F1F7D7" },
+    "signalInk": { "value": "#344000" },
+    "aiHighlight": { "value": "#E8F08D" },
+    "danger": { "value": "#B42318" },
+    "dangerSoft": { "value": "#FEE4E2" },
+    "success": { "value": "#167A5B" },
+    "successSoft": { "value": "#DFF2EC" },
+    "brandAsset": {
+      "orbitNight": { "value": "#16033A" },
+      "pearlLilac": { "value": "#DDCEE3" },
+      "orbViolet": { "value": "#936CD2" },
+      "orbAqua": { "value": "#64CDDE" },
+      "orbSky": { "value": "#A7DCED" },
+      "orbPeach": { "value": "#EAD0B6" }
+    },
+    "echoSurface": {
+      "ambientAqua": { "value": "#F3F4F1" },
+      "ambientLilac": { "value": "#F0F0ED" },
+      "ambientPeach": { "value": "#F6F3ED" },
+      "recallSurface": { "value": "#FFFFFF" },
+      "recallBorder": { "value": "#E2E1DC" },
+      "reflectionAqua": { "value": "#D7D5CF" },
+      "reflectionViolet": { "value": "#C8C5BE" },
+      "reflectionPeach": { "value": "#E1DDD5" },
+      "navigationSurface": { "value": "#FFFFFF" },
+      "navigationSelected": { "value": "#F0F0ED" }
+    },
+    "intent": {
+      "reference": { "background": { "value": "#E8EDFF" }, "text": { "value": "#2443B8" } },
+      "want": { "background": { "value": "#FBE9DF" }, "text": { "value": "#9A3F17" } },
+      "share": { "background": { "value": "#F8E4EC" }, "text": { "value": "#94224E" } },
+      "read": { "background": { "value": "#DFF2EC" }, "text": { "value": "#0D6A56" } },
+      "keep": { "background": { "value": "#EEEAE2" }, "text": { "value": "#514D46" } }
+    },
+    "dark": {
+      "canvas": { "value": "#11110F" },
+      "surface": { "value": "#1A1A17" },
+      "ink": { "value": "#F5F1E8" },
+      "inkSecondary": { "value": "#A09A90" },
+      "line": { "value": "#333129" },
+      "primary": { "value": "#8AA0FF" }
+    }
+  },
+  "space": {
+    "0": { "value": 0 },
+    "1": { "value": 4 },
+    "2": { "value": 8 },
+    "3": { "value": 12 },
+    "4": { "value": 16 },
+    "5": { "value": 20 },
+    "6": { "value": 24 },
+    "7": { "value": 28 },
+    "8": { "value": 32 },
+    "10": { "value": 40 },
+    "12": { "value": 48 }
+  },
+  "radius": {
+    "thumbnail": { "value": 10 },
+    "screenshotCard": { "value": 12 },
+    "card": { "value": 20 },
+    "feature": { "value": 24 },
+    "tray": { "value": 28 },
+    "sheet": { "value": 28 },
+    "modal": { "value": 28 },
+    "pill": { "value": 999 }
+  },
+  "size": {
+    "touchTarget": { "value": 44 },
+    "iconSmall": { "value": 16 },
+    "iconMedium": { "value": 20 },
+    "iconLarge": { "value": 24 }
+  },
+  "typography": {
+    "display": { "fontSize": { "value": 36 }, "lineHeight": { "value": 42 }, "fontWeight": { "value": 700 }, "letterSpacing": { "value": -1.2 } },
+    "coverNumber": { "fontSize": { "value": 56 }, "lineHeight": { "value": 58 }, "fontWeight": { "value": 650 } },
+    "screenTitle": { "fontSize": { "value": 30 }, "lineHeight": { "value": 36 }, "fontWeight": { "value": 700 } },
+    "sectionTitle": { "fontSize": { "value": 20 }, "lineHeight": { "value": 28 }, "fontWeight": { "value": 650 } },
+    "cardTitle": { "fontSize": { "value": 16 }, "lineHeight": { "value": 24 }, "fontWeight": { "value": 600 } },
+    "body": { "fontSize": { "value": 15 }, "lineHeight": { "value": 22 }, "fontWeight": { "value": 400 } },
+    "bodyStrong": { "fontSize": { "value": 15 }, "lineHeight": { "value": 22 }, "fontWeight": { "value": 600 } },
+    "metadata": { "fontSize": { "value": 13 }, "lineHeight": { "value": 18 }, "fontWeight": { "value": 400 } },
+    "label": { "fontSize": { "value": 12 }, "lineHeight": { "value": 16 }, "fontWeight": { "value": 650 } },
+    "eyebrow": { "fontSize": { "value": 11 }, "lineHeight": { "value": 14 }, "fontWeight": { "value": 700 }, "letterSpacing": { "value": 1.25 } },
+    "micro": { "fontSize": { "value": 11 }, "lineHeight": { "value": 14 }, "fontWeight": { "value": 550 } }
+  },
+  "motion": {
+    "fast": { "value": 140 },
+    "default": { "value": 200 },
+    "slow": { "value": 280 }
+  },
+  "layout": {
+    "screenPadding": { "value": 20 },
+    "sectionGap": { "value": 36 },
+    "cardGap": { "value": 12 },
+    "gridColumns": { "value": 2 },
+    "maxContentWidth": { "value": 480 },
+    "maxWorkspaceWidth": { "value": 920 },
+    "hairline": { "value": 1 },
+    "signalLine": { "value": 2 }
+  }
+}

@@ -1,0 +1,20 @@
+.build
+.expo
+.vercel
+dist
+node_modules
+supabase/.temp
+CatchCapture.xcodeproj
+CatchCapture 2.xcodeproj
+*.png
+assets/brand/echo/*.svg
+package-lock.json
+AGENTS.md
+design
+docs
+prompts
+tasks
+CatchCapture
+CatchCaptureTests
+CatchCaptureUITests
+*.xcodeproj
